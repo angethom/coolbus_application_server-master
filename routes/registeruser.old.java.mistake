@@ -1,0 +1,73 @@
+var express = require('express');;
+
+// get an instance of the router for api routes
+var apiRoutes = express.Router(); 
+var config = require('../config');
+var User   = require('../models/registeruser'); // get our mongoose model
+
+// route to register a user (POST http://localhost:8080/api/register)
+apiRoutes.post('/register', function(req, res) {
+
+var firstname = req.ody.firstname;
+var lastname = req.body.lastname;
+var phone = req.body.phone;
+var email = req.body.email;
+
+var newuser = new USER ({
+FIRSTNAME:req.body.firstname,
+LASTNAME:req.body.lastname,
+PHONE:req.body.phone,
+EMAILID:req.body.email,
+PASSWORD:req.body.password,
+TIMESTAMP:true
+ACCOUNTCREATEDON:true
+});
+
+USER.findOne({firstname, lastname
+}, function(err, USER) {
+if(err) throw err;
+
+if(!USER) {
+ // save the user
+  newuser.save(function(err) {
+    if (err) throw err;
+
+    console.log('User saved successfully');
+    res.json({ success: true });
+});
+} else if(USER) {
+	if(USER.PHONE == phone) {
+	res.json({ success: false, message: 'User exist with same name and phone number.' });
+	} else if(USER.EMAILID == email) {
+	res.json({ success: false, message: 'User exist with same name and email address.' });
+	} else {
+	newuser.save(function(err) {
+		if (err) throw err;
+    
+ 		console.log('User saved successfully');
+    		res.json({ success: true });
+		});
+	}
+}}); 
+});
+
+module.exports = apiRoutes;
+
+
+//app.get('/setup', function(req, res) {
+
+  // create a sample user
+//  var nick = new User({
+//    name: 'Nick Cerminara',
+//    password: 'password',
+//    admin: true
+//  });
+
+  // save the sample user
+//  nick.save(function(err) {
+//    if (err) throw err;
+//
+//    console.log('User saved successfully');
+//    res.json({ success: true });
+//  });
+//});
